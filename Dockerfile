@@ -1,7 +1,7 @@
 # AI PhotoVault: one image for the web app / API and the background worker (selected by the command).
 # syntax=docker/dockerfile:1
 
-FROM node:24-bookworm-slim AS build
+FROM node:26-bookworm-slim AS build
 WORKDIR /src
 COPY package.json package-lock.json tsconfig.base.json ./
 COPY app/shared/package.json app/shared/
@@ -11,7 +11,7 @@ RUN npm ci
 COPY app app
 RUN npm run build
 
-FROM node:24-bookworm-slim AS runtime
+FROM node:26-bookworm-slim AS runtime
 ENV NODE_ENV=production PHOTOVAULT_IN_CONTAINER=1 PHOTOVAULT_HOST=0.0.0.0 PHOTOVAULT_API_PORT=8480
 WORKDIR /opt/photovault
 COPY package.json package-lock.json ./
