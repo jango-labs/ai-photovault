@@ -4,6 +4,17 @@ An open-source, **private, self-hosted** photography library with semantic image
 
 > Status: **1.0.0 release candidate 2.** Verified on macOS (native PostgreSQL) and, in GitHub Actions on Ubuntu, the Docker Compose stack and the native install. Windows is written and reviewed but **not yet verified** on a real machine (see [Known limitations](#known-limitations)).
 
+## See it
+
+*All screenshots use the built-in sample library: 36 generated pictures, no real photographs.*
+
+![The library: a fast gallery with ratings, filters and sorting](docs/images/library.png)
+
+| | |
+|---|---|
+| ![AI Curator explaining why each photograph was picked](docs/images/curator.png)<br>**AI Curator**: a ranked selection with plain-language reasons (your ratings, measured sharpness and exposure, series suppression). It only advises; it never edits or publishes. | ![Offline world map of geotagged photographs](docs/images/map.png)<br>**Map**: geotagged photographs on a bundled offline map; no map server is contacted. |
+| ![Photo detail with metadata, rating and similar-photo search](docs/images/photo-detail.png)<br>**Photo detail**: EXIF, IPTC, rating, “Find similar photographs”. | ![Search results](docs/images/search.png)<br>**Search**: natural-language search that says honestly how it matched. Add Ollama for meaning-based matching. |
+
 ## What it does
 
 | Area | What you get |
