@@ -17,7 +17,7 @@ Your photographs are mounted **read-only**. PhotoVault never writes to, renames 
 ## 1. Get the code
 
 ```bash
-git clone https://github.com/junwalla73/ai-photovault.git
+git clone https://github.com/jango-labs/ai-photovault.git
 cd ai-photovault
 ```
 

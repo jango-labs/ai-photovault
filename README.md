@@ -21,7 +21,7 @@ An open-source, **private, self-hosted** photography library with semantic image
 Requires Docker Desktop (Windows/macOS) or Docker Engine + Compose (Linux), and [Node.js 24+](https://nodejs.org) only for the one-line setup script (or use the Node-free scripts in [docs/INSTALL.md](docs/INSTALL.md)).
 
 ```bash
-git clone https://github.com/junwalla73/ai-photovault.git
+git clone https://github.com/jango-labs/ai-photovault.git
 cd ai-photovault
 npm run setup:env                 # creates .env with random secrets; to choose your folder: npm run setup:env -- --photos "/path/to/your/exports"
 docker compose up -d --build      # database + app + worker, bound to 127.0.0.1:8480
