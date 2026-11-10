@@ -41,6 +41,11 @@ jobs:
         run: |
           PHOTOVAULT_DB=photovault_test ./scripts/db-bootstrap.sh
           npm run test:db
+      - name: PostgreSQL 17 client tools (the runner ships 16; pg_dump must match the server)
+        run: |
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          sudo apt-get install -y postgresql-client-17
+          echo "/usr/lib/postgresql/17/bin" >> "$GITHUB_PATH"
       - name: End-to-end clean install (native)
         run: ./scripts/e2e-native.sh
 

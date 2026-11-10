@@ -74,6 +74,7 @@ services:
     image: ai-photovault:local
     command: ["worker"]
     restart: unless-stopped
+    healthcheck: { disable: true }   # the image's HTTP health check is for the web app; the worker serves no HTTP (its liveness is the System page's worker heartbeat)
     depends_on:
       app: { condition: service_healthy }
     environment: *app-env
