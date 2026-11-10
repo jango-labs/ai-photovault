@@ -1,0 +1,110 @@
+/*
+ * PhotoVault design tokens, v0.1 (proposal; not applied to any application yet).
+ * Plain CSS custom properties: usable from vanilla CSS, Tailwind v4 (@theme inline), or CSS-in-JS. No build step, no framework.
+ * Canonical theme = "Oracle" dark (the teal surface stack).
+ * "Stage" = the showcase (cinematic). "Paper" = optional light theme for reading-heavy tools.
+ * Contrast of every documented text/surface pair is tabulated in 02-DESIGN-SYSTEM.md §2.
+ */
+:root {
+  /* ---- surfaces (workspace, canonical dark) ---- */
+  --aiu-canvas: #011D1C;        /* app background */
+  --aiu-panel: #012624;         /* panels, sidebars, inputs */
+  --aiu-raised: #003734;        /* raised: menus, dialogs, selected rows */
+  --aiu-hover: #0A4A46;         /* hover on raised */
+  --aiu-scrim: rgba(1, 29, 28, .8);
+  --aiu-viewer-neutral: #2E2E2E; /* photography review surface: no tint on photographs */
+
+  /* ---- stage (showcase only; never behind working content) ---- */
+  --aiu-stage: #030C10;
+  --aiu-stage-card: #0B2029;
+
+  /* ---- lines ---- */
+  --aiu-line: rgb(255 255 255 / .09);
+  --aiu-line-strong: rgb(255 255 255 / .18);
+  --aiu-line-accent: rgb(203 255 252 / .28);
+
+  /* ---- text ---- */
+  --aiu-text: #FFFFFF;          /* headings, active, values */
+  --aiu-text-2: #BBC7C6;        /* body */
+  --aiu-text-3: #8FA09E;        /* tertiary: meta, placeholders (>= 4.8:1 on canvas/panel/raised only) */
+  --aiu-mist: #EDFFFE;
+  --aiu-phosphor: #FDE9FF;      /* large numerals / one top figure only */
+
+  /* ---- light (teal used sparingly, for emphasis) ---- */
+  --aiu-aqua: #CBFFFC;          /* focus ring, active state, selection */
+  --aiu-ice: #9DDDE0;           /* accent text, links on dark, stage highlights */
+  --aiu-teal: #2F9DB6;          /* lines, charts, lighting; text only >= 16px on canvas/panel */
+  --aiu-teal-deep: #00827C;     /* decorative only (gradient start); never text */
+  --aiu-violet: #7774BB;        /* controlled accent in illustration; decorative, never text */
+  --aiu-pink: #FAD1FF;          /* favourite glyph, gradient end */
+
+  /* ---- semantic (always paired with a glyph and a word) ---- */
+  --aiu-ok: #5FD6C7;   --aiu-ok-soft: rgb(95 214 199 / .14);
+  --aiu-warn: #E8B84A; --aiu-warn-soft: rgb(232 184 74 / .14);
+  --aiu-danger: #F2796F; --aiu-danger-soft: rgb(242 121 111 / .14);
+  --aiu-info: #A8ECFF; --aiu-info-soft: rgb(168 236 255 / .12);
+
+  /* ---- semantic TEXT variants (v0.2 draft): use these for words and glyphs; the base colours above are for fills, borders and dots.
+          Each is verified >= 4.5:1 on canvas/panel/raised/hover AND on its own tint over each of them (see 02-DESIGN-SYSTEM.md, v0.2 amendments). ---- */
+  --aiu-ok-text: #72E0D2; --aiu-warn-text: #EDC465; --aiu-danger-text: #FFA29A; --aiu-info-text: #A8ECFF;
+
+  /* ---- gradients: one primary action per view, and 2px activity hairlines. Never on surfaces or text. ---- */
+  --aiu-gradient-cta: linear-gradient(90deg, #CBFFFC 0%, #EDFFFE 26%, #FFFDFA 48%, #FAD1FF 89%);
+  --aiu-gradient-ai: linear-gradient(90deg, #00827C, #CBFFFC, #FAD1FF);
+
+  /* ---- type ---- */
+  --aiu-font-display: "Space Grotesk Variable", "Space Grotesk", var(--aiu-font-ui);
+  --aiu-font-ui: "Inter Variable", Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --aiu-font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ---- space (4px grid) ---- */
+  --aiu-s-1: 4px; --aiu-s-2: 8px; --aiu-s-3: 12px; --aiu-s-4: 16px; --aiu-s-5: 20px; --aiu-s-6: 24px; --aiu-s-8: 32px; --aiu-s-10: 40px; --aiu-s-12: 48px; --aiu-s-16: 64px;
+
+  /* ---- density ---- */
+  --aiu-control-h: 32px;  --aiu-row-h: 36px;  --aiu-gutter: 16px;   /* compact (workstation default) */
+
+  /* ---- shape ---- */
+  --aiu-r-control: 6px; --aiu-r-panel: 12px; --aiu-r-card: 16px; --aiu-r-stage: 22px; /* stage only */
+  --aiu-r-photo: 2px;
+
+  /* ---- focus ---- */
+  --aiu-focus: 2px solid var(--aiu-aqua);
+  --aiu-focus-offset: 2px;
+
+  /* ---- motion ---- */
+  --aiu-d-fast: 120ms; --aiu-d-base: 200ms; --aiu-d-slow: 320ms;
+  --aiu-ease: cubic-bezier(.2, 0, 0, 1);
+
+  color-scheme: dark;
+}
+
+/* comfortable density: touch devices and reading-first screens */
+[data-density="comfortable"] { --aiu-control-h: 40px; --aiu-row-h: 44px; --aiu-gutter: 20px; }
+@media (pointer: coarse) { :root { --aiu-control-h: 44px; --aiu-row-h: 48px; } }
+
+/* stage: the showcase. Same palette, deeper floor; allowed to glow. */
+[data-surface="stage"] { --aiu-canvas: var(--aiu-stage); --aiu-panel: var(--aiu-stage-card); --aiu-line: rgb(151 198 202 / .15); }
+
+/* paper: optional light theme for reading and printing (FIH briefings, long-form notes). Pairs tabulated in the spec. */
+[data-theme="paper"] {
+  --aiu-canvas: #F3F7F7; --aiu-panel: #FFFFFF; --aiu-raised: #E6EEEE; --aiu-hover: #DCE7E7; --aiu-scrim: rgb(10 31 30 / .45);
+  --aiu-line: rgb(1 38 36 / .14); --aiu-line-strong: rgb(1 38 36 / .28); --aiu-line-accent: rgb(0 105 95 / .45);
+  --aiu-text: #0A1F1E; --aiu-text-2: #34494A; --aiu-text-3: #566B6A; --aiu-mist: #0A1F1E; --aiu-phosphor: #0A1F1E;
+  --aiu-aqua: #00695F; --aiu-ice: #0B5E8A; --aiu-teal: #00695F; --aiu-teal-deep: #00695F; --aiu-violet: #5B57A6; --aiu-pink: #9A3F86;
+  --aiu-ok: #0B6B4F; --aiu-ok-soft: rgb(11 107 79 / .1); --aiu-warn: #7A5200; --aiu-warn-soft: rgb(122 82 0 / .1);
+  --aiu-danger: #B3261E; --aiu-danger-soft: rgb(179 38 30 / .1); --aiu-info: #0B5E8A; --aiu-info-soft: rgb(11 94 138 / .1);
+  --aiu-gradient-cta: linear-gradient(90deg, #00695F, #0B5E8A); --aiu-gradient-ai: linear-gradient(90deg, #00695F, #0B5E8A);
+  --aiu-ok-text: #0A6449; --aiu-warn-text: #7A5200; --aiu-danger-text: #A8231B; --aiu-info-text: #0B5E8A;
+  color-scheme: light;
+}
+
+/* motion law: workspaces are calm; reduced motion removes everything that moves */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+
+/* ---- compatibility aliases: existing apps map their current names to the shared tokens without a rewrite ---- */
+:root {
+  /* legacy aliases */ --abyss-0: var(--aiu-canvas); --abyss-1: var(--aiu-panel); --kelp: var(--aiu-raised); --kelp-hi: var(--aiu-hover); --line: var(--aiu-line); --line-strong: var(--aiu-line-strong); --text: var(--aiu-text); --text-2: var(--aiu-text-2); --text-3: var(--aiu-text-3); --aqua: var(--aiu-aqua); --teal: var(--aiu-teal-deep);
+  /* legacy aliases */ --abyss: var(--aiu-panel); --deep: var(--aiu-canvas); --silver: var(--aiu-text-2); --quiet: var(--aiu-text-3); --focus: var(--aiu-aqua);
+}

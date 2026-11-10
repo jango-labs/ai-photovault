@@ -1,0 +1,102 @@
+# AI PhotoVault: private, self-hosted. Nothing is published on your network: the web app is bound to 127.0.0.1 on THIS computer
+# only, and the database is not published at all. Configure with .env (create it with: npm run setup:env, or scripts/setup-env.ps1 on Windows).
+name: photovault
+
+x-app-env: &app-env
+  PHOTOVAULT_DB: ${PHOTOVAULT_DB:-photovault}
+  PHOTOVAULT_PGHOST: db
+  PHOTOVAULT_PGPORT: "5432"
+  PHOTOVAULT_DB_OWNER_PASSWORD: ${PHOTOVAULT_DB_OWNER_PASSWORD:?run the setup script to create .env}
+  PHOTOVAULT_DB_APP_PASSWORD: ${PHOTOVAULT_DB_APP_PASSWORD:?}
+  PHOTOVAULT_DB_SERVICE_PASSWORD: ${PHOTOVAULT_DB_SERVICE_PASSWORD:?}
+  PHOTOVAULT_DB_DELIVERY_PASSWORD: ${PHOTOVAULT_DB_DELIVERY_PASSWORD:?}
+  PHOTOVAULT_DB_BACKUP_PASSWORD: ${PHOTOVAULT_DB_BACKUP_PASSWORD:?}
+  PHOTOVAULT_SESSION_SECRET: ${PHOTOVAULT_SESSION_SECRET:?}
+  PHOTOVAULT_TOKEN_ENC_KEY: ${PHOTOVAULT_TOKEN_ENC_KEY:?}
+  PHOTOVAULT_DEMO_MODE: ${PHOTOVAULT_DEMO_MODE:-0}
+  PHOTOVAULT_INGEST_DIR: ${PHOTOVAULT_INGEST_DIR:-/photos}
+  PHOTOVAULT_INGEST_NAME: ${PHOTOVAULT_INGEST_NAME:-My photos}
+  PHOTOVAULT_SCAN_INTERVAL_MIN: ${PHOTOVAULT_SCAN_INTERVAL_MIN:-360}
+  PHOTOVAULT_OLLAMA_URL: ${PHOTOVAULT_OLLAMA_URL:-http://ollama:11434}
+  PHOTOVAULT_OLLAMA_ALLOWED_HOSTS: ${PHOTOVAULT_OLLAMA_ALLOWED_HOSTS:-ollama}
+  PHOTOVAULT_OLLAMA_VISION_MODEL: ${PHOTOVAULT_OLLAMA_VISION_MODEL:-gemma3:4b}
+  PHOTOVAULT_OLLAMA_EMBED_MODEL: ${PHOTOVAULT_OLLAMA_EMBED_MODEL:-nomic-embed-text}
+  PHOTOVAULT_GEOCODER: ${PHOTOVAULT_GEOCODER:-off}
+
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?run the setup script to create .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    # no "ports:" on purpose: the database is reachable only by the other containers
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  bootstrap:
+    image: pgvector/pgvector:pg17
+    restart: "no"
+    depends_on:
+      db: { condition: service_healthy }
+    environment:
+      <<: *app-env
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./db/bootstrap.sql:/bootstrap/bootstrap.sql:ro
+      - ./docker/bootstrap.sh:/bootstrap/bootstrap.sh:ro
+    entrypoint: ["sh", "/bootstrap/bootstrap.sh"]
+
+  app:
+    build: .
+    image: ai-photovault:local
+    restart: unless-stopped
+    depends_on:
+      bootstrap: { condition: service_completed_successfully }
+    environment: *app-env
+    ports:
+      - "127.0.0.1:${PHOTOVAULT_PORT:-8480}:8480"   # loopback only; change the host address deliberately and read docs/SECURITY.md first
+    volumes:
+      - ${PHOTOVAULT_PHOTOS_DIR:-./photos}:/photos:ro   # your photographs, READ-ONLY: PhotoVault never modifies originals
+      - data:/data                                       # previews and thumbnails (rebuildable)
+      - state:/state                                     # import approvals
+    read_only: true
+    tmpfs: ["/tmp"]
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+
+  worker:
+    image: ai-photovault:local
+    command: ["worker"]
+    restart: unless-stopped
+    depends_on:
+      app: { condition: service_healthy }
+    environment: *app-env
+    volumes:
+      - ${PHOTOVAULT_PHOTOS_DIR:-./photos}:/photos:ro
+      - data:/data
+      - state:/state
+    read_only: true
+    tmpfs: ["/tmp"]
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+
+  # Optional local AI (image descriptions + meaning-based search). Start it with:  docker compose --profile ollama up -d
+  # It has no published port and no internet access is needed after the models are downloaded. Photos never leave your computer.
+  ollama:
+    profiles: ["ollama"]
+    image: ollama/ollama:latest
+    restart: unless-stopped
+    volumes:
+      - ollama:/root/.ollama
+
+volumes:
+  pgdata:
+  data:
+  state:
+  ollama:

@@ -1,0 +1,79 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/inter-tight';
+@import '@fontsource/ibm-plex-mono/400.css';
+
+@import './aiu-tokens.css';
+@import './universe.css';          /* shared design identity (vendored from universe-identity) */
+@import './universe-adapter.css';
+
+/* AI PhotoVault tokens. Colour values now come from the shared PhotoVault tokens (aiu-tokens.css, spec v0.1, provisional):
+   the names below are aliases, so every existing rule keeps working. PhotoVault-only names (radii, viewer surface, font stack) stay here.
+   Source of truth for rules: docs/DESIGN_SYSTEM.md. */
+:root {
+  --abyss-0: var(--aiu-canvas);   /* canvas */
+  --abyss-1: var(--aiu-panel);    /* panel */
+  --kelp: var(--aiu-raised);      /* raised */
+  --kelp-hi: var(--aiu-hover);
+  --line: var(--aiu-line);
+  --line-strong: var(--aiu-line-strong);
+
+  --text: var(--aiu-text);
+  --text-2: var(--aiu-text-2);
+  --text-3: var(--aiu-text-3);
+  --mist: var(--aiu-mist);
+  --phosphor: var(--aiu-phosphor);
+
+  --aqua: var(--aiu-aqua);
+  --teal: var(--aiu-teal-deep);
+  --pink: var(--aiu-pink);
+
+  --ok: var(--aiu-ok-text);        /* text variants: verified on every surface and tint (spec v0.2 draft) */
+  --warn: var(--aiu-warn-text);
+  --danger: var(--aiu-danger-text);
+
+  --gradient-cta: var(--aiu-gradient-cta);   /* no longer used by the primary button (solid accent); kept for the alias contract */
+  --gradient-ai: var(--aiu-gradient-ai);     /* AI activity hairlines only */
+
+  --radius-control: var(--aiu-r-control);
+  --radius-panel: var(--aiu-r-panel);
+  --radius-card: var(--aiu-r-card);
+
+  --font-sans: var(--aiu-font-ui);
+  color-scheme: dark;
+}
+
+:root[data-viewer='neutral'] { --viewer-surface: #2e2e2e; }
+:root:not([data-viewer='neutral']) { --viewer-surface: var(--abyss-0); }
+
+@theme inline {
+  --color-abyss-0: var(--abyss-0);
+  --color-abyss-1: var(--abyss-1);
+  --color-kelp: var(--kelp);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
+  --color-mist: var(--mist);
+  --color-phosphor: var(--phosphor);
+  --color-aqua: var(--aqua);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-sans);
+}
+
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background: var(--abyss-0);
+  color: var(--text-2);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--aqua); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}

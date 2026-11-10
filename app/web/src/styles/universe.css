@@ -1,0 +1,85 @@
+/*
+ * PhotoVault visual identity, v1 (matches the deployed homepage and portal: /ai-universe/src/home.css).
+ * Plain CSS, no build step. Load order in an app:  fonts -> aiu-tokens.css (existing) -> universe.css (this file) -> universe-adapter.css -> app CSS.
+ * Section 1: identity tokens (--uni-*). Section 2: shared components (.uni-*). The adapter (universe-adapter.css) re-points each app's existing
+ * --aiu-* tokens at these values, so existing screens pick up the new palette without a rewrite.
+ */
+:root {
+  /* surfaces: near-black, cool */
+  --uni-bg: #060709; --uni-bg-2: #0a0b10; --uni-panel: #0b0c11; --uni-raised: #12131a; --uni-hover: #1a1b25;
+  --uni-scrim: rgba(6, 7, 9, .78);
+  /* lines */
+  --uni-line: rgba(255, 255, 255, .09); --uni-line-2: rgba(255, 255, 255, .16); --uni-line-accent: rgba(167, 139, 250, .38);
+  /* text (all >= 4.5:1 on bg, panel, raised and hover) */
+  --uni-text: #fff; --uni-text-2: #a9b3c4; --uni-text-3: #8b96a8;
+  /* accents: violet for action, cyan/teal for information and focus */
+  --uni-violet: #8b5cf6; --uni-violet-strong: #6d4aff; --uni-violet-soft: #a78bfa; --uni-teal: #5eead4; --uni-aqua: #9ddde0;
+  /* semantic text colours (always with a word or glyph) */
+  --uni-ok: #5eead4; --uni-warn: #edc465; --uni-danger: #ffa29a; --uni-info: #9ddde0;
+  /* type */
+  --uni-head: "Inter Tight Variable", "Inter Tight", "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif;
+  --uni-body: "Inter Variable", Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --uni-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* shape and motion */
+  --uni-r-control: 10px; --uni-r-panel: 14px; --uni-r-pill: 999px;
+  --uni-focus: 2px solid var(--uni-aqua); --uni-focus-offset: 2px;
+  --uni-ease: cubic-bezier(.2, .7, .2, 1);
+  color-scheme: dark;
+}
+
+/* ---- base ---- */
+.uni-root { background: var(--uni-bg); color: var(--uni-text); font-family: var(--uni-body); -webkit-font-smoothing: antialiased; }
+.uni-root :focus-visible { outline: var(--uni-focus); outline-offset: var(--uni-focus-offset); border-radius: 6px; }
+.uni-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.uni-head, .uni-root h1, .uni-root h2 { font-family: var(--uni-head); letter-spacing: -.03em; }
+.uni-eyebrow { font: 400 .72rem/1 var(--uni-mono); letter-spacing: .2em; text-transform: uppercase; color: var(--uni-violet-soft); display: inline-flex; align-items: center; gap: 10px; }
+.uni-eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--uni-violet); }
+.uni-meta { font: 400 .76rem/1.4 var(--uni-mono); letter-spacing: .04em; color: var(--uni-text-3); }
+
+/* ---- buttons: one violet primary per view, ghost for the rest ---- */
+.uni-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 0 18px; border-radius: var(--uni-r-pill); font: 500 .95rem/1 var(--uni-body); text-decoration: none; cursor: pointer; border: 1px solid transparent; color: var(--uni-text); background: transparent; transition: background .2s, border-color .2s, transform .2s var(--uni-ease); }
+.uni-btn:hover { transform: translateY(-1px); }
+.uni-btn--primary { background: var(--uni-violet-strong); color: #fff; }
+.uni-btn--primary:hover { background: #5b3be6; } /* white on #6d4aff 5.15:1, on #5b3be6 6.6:1 */
+.uni-btn--ghost { border-color: var(--uni-line-2); }
+.uni-btn--ghost:hover { border-color: #fff; }
+.uni-btn--quiet { color: var(--uni-text-2); }
+.uni-btn--quiet:hover { color: #fff; background: var(--uni-hover); transform: none; }
+.uni-btn--danger { border-color: rgba(255, 162, 154, .45); color: var(--uni-danger); }
+.uni-btn[disabled], .uni-btn[aria-disabled="true"] { opacity: .5; cursor: not-allowed; transform: none; }
+@media (pointer: coarse) { .uni-btn { min-height: 44px; } }
+
+/* ---- inputs ---- */
+.uni-input { font: 400 .95rem/1.4 var(--uni-body); color: var(--uni-text); background: var(--uni-panel); border: 1px solid var(--uni-line-2); border-radius: var(--uni-r-control); padding: 0 14px; min-height: 40px; width: 100%; }
+.uni-input::placeholder { color: var(--uni-text-3); }
+.uni-input:focus-visible { outline: var(--uni-focus); outline-offset: 1px; border-color: transparent; }
+textarea.uni-input { padding: 10px 14px; }
+@media (pointer: coarse) { .uni-input { min-height: 44px; } }
+
+/* ---- panel, chip ---- */
+.uni-panel { background: var(--uni-panel); border: 1px solid var(--uni-line); border-radius: var(--uni-r-panel); }
+.uni-chip { display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border: 1px solid var(--uni-line-2); border-radius: var(--uni-r-pill); font: 400 .72rem/1.6 var(--uni-mono); letter-spacing: .06em; color: var(--uni-text-2); }
+
+/* ---- app header: the PhotoVault mark, product name, optional nav ---- */
+.uni-header { display: flex; align-items: center; gap: 16px; min-height: 56px; padding: 0 16px; border-bottom: 1px solid var(--uni-line); background: rgba(6, 7, 9, .86); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.uni-brand { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; text-decoration: none; color: var(--uni-text); font: 600 1.05rem/1 var(--uni-head); letter-spacing: -.02em; }
+.uni-brand small { font: 400 .72rem/1 var(--uni-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--uni-text-3); margin-left: 4px; }
+.uni-header nav { display: flex; gap: 4px; margin-left: auto; align-items: center; }
+
+/* ---- animated mark: the two orbits turn in once when the page loads, and again on hover/focus; never loops ---- */
+.uni-logo { display: block; flex: none; color: currentColor; overflow: visible; }
+.uni-logo .orbit { transform-box: fill-box; transform-origin: center; }
+.uni-logo .core { transform-box: fill-box; transform-origin: center; }
+@media (prefers-reduced-motion: no-preference) {
+  .uni-logo .orbit-a { animation: uni-spin-a 1.6s var(--uni-ease) 1 both; }
+  .uni-logo .orbit-b { animation: uni-spin-b 1.6s var(--uni-ease) 1 both; }
+  .uni-logo .core { animation: uni-pulse 1.6s var(--uni-ease) 1 both; }
+  .uni-brand:hover .orbit-a, .uni-brand:focus-visible .orbit-a { animation: uni-spin-a 1.2s var(--uni-ease) 1 both; }
+  .uni-brand:hover .orbit-b, .uni-brand:focus-visible .orbit-b { animation: uni-spin-b 1.2s var(--uni-ease) 1 both; }
+}
+@keyframes uni-spin-a { from { transform: rotate(-24deg) rotate(-150deg); } to { transform: rotate(-24deg); } }
+@keyframes uni-spin-b { from { transform: rotate(36deg) rotate(170deg); } to { transform: rotate(36deg); } }
+@keyframes uni-pulse { 0% { transform: scale(.4); opacity: 0; } 60% { transform: scale(1.15); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+
+/* ---- reduced motion: nothing moves ---- */
+@media (prefers-reduced-motion: reduce) { .uni-root *, .uni-root *::before, .uni-root *::after { animation: none !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }

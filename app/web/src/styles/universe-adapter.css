@@ -1,0 +1,16 @@
+/*
+ * Adapter: re-points the existing PhotoVault design tokens (--aiu-*) at the new identity so every screen that already uses them
+ * adopts the near-black / violet / cyan look. Load AFTER aiu-tokens.css and universe.css. Apps may still set their own overrides after this.
+ * Paper theme (Prompt Library, FIH) is left alone: [data-theme="paper"] in aiu-tokens.css keeps winning for light mode.
+ */
+:root:not([data-theme="paper"]) {
+  --aiu-canvas: var(--uni-bg); --aiu-panel: var(--uni-panel); --aiu-raised: var(--uni-raised); --aiu-hover: var(--uni-hover); --aiu-scrim: var(--uni-scrim);
+  --aiu-line: var(--uni-line); --aiu-line-strong: var(--uni-line-2); --aiu-line-accent: var(--uni-line-accent);
+  --aiu-text: var(--uni-text); --aiu-text-2: var(--uni-text-2); --aiu-text-3: var(--uni-text-3); --aiu-mist: #fff; --aiu-phosphor: #fff;
+  --aiu-aqua: var(--uni-aqua); --aiu-ice: var(--uni-violet-soft); --aiu-teal: var(--uni-teal); --aiu-teal-deep: var(--uni-violet-strong); --aiu-violet: var(--uni-violet); --aiu-pink: var(--uni-violet-soft);
+  --aiu-ok: var(--uni-ok); --aiu-ok-text: var(--uni-ok); --aiu-warn: var(--uni-warn); --aiu-warn-text: var(--uni-warn);
+  --aiu-danger: var(--uni-danger); --aiu-danger-text: var(--uni-danger); --aiu-info: var(--uni-info); --aiu-info-text: var(--uni-info);
+  --aiu-font-display: var(--uni-head); --aiu-font-ui: var(--uni-body); --aiu-font-mono: var(--uni-mono);
+  --aiu-r-control: 10px; --aiu-r-panel: 14px; --aiu-r-card: 16px;
+  --aiu-gradient-cta: none; --aiu-gradient-ai: linear-gradient(90deg, var(--uni-violet-strong), var(--uni-teal));
+}

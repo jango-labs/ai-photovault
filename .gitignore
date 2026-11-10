@@ -1,0 +1,31 @@
+# secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+# your data: never commit photographs, previews, databases or backups
+/photos/*
+!/photos/.gitkeep
+/data/
+/backups/
+*.dump
+*.sql.gz
+*.sqlite
+# dependencies and build output
+node_modules/
+dist/
+*.tsbuildinfo
+coverage/
+.vite/
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+# working notes that must stay private
+/notes-private/
