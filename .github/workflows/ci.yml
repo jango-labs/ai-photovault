@@ -29,7 +29,7 @@ jobs:
       PHOTOVAULT_SESSION_SECRET: 0000000000000000000000000000000000000000000000000000000000000001
       PHOTOVAULT_TOKEN_ENC_KEY: 0000000000000000000000000000000000000000000000000000000000000002
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with: { node-version: 24, cache: npm }
       - run: npm ci
@@ -47,7 +47,7 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with: { node-version: 24 }
       - run: node scripts/setup-env.mjs
