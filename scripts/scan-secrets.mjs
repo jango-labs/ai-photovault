@@ -22,7 +22,7 @@ const PATTERNS = [
   ['private IPv4', /\b(?:10\.\d{1,3}|192\.168|172\.(?:1[6-9]|2\d|3[01]))\.\d{1,3}\.\d{1,3}\b/],
   ['tailnet / CGNAT address', /\b100\.(?:6[4-9]|[7-9]\d|1[01]\d|12[0-7])\.\d{1,3}\.\d{1,3}\b|\.ts\.net\b|\btail[0-9a-f]{4,}\b/i],
   ['SMB/NAS URL', /\bsmb:\/\/[^\s'"]+/i],
-  ['email address', /\b[A-Za-z0-9._%+-]+@(?!users\.noreply\.github\.com|example\.(?:com|org|test)|anthropic\.com|photos\.example)[A-Za-z0-9.-]+\.[a-z]{2,}\b/i],
+  ['email address', /(?<![A-Za-z0-9._%+-])(?!(?:support|noreply)@github\.com)\b[A-Za-z0-9._%+-]+@(?!users\.noreply\.github\.com|example\.(?:com|org|test)|anthropic\.com|photos\.example)[A-Za-z0-9.-]+\.[a-z]{2,}\b/i],
 ];
 // Words that must never appear in the public tree (project-private names). Extend locally: PHOTOVAULT_SCAN_EXTRA="word1,word2".
 const WORDS = ['jangounwalla', 'jangoinsta', 'jangophoto', 'com.jango', 'personalaihub', 'personal-ai-hub', 'second brain', 'unissant', 'backups-mac-mini', 'fedintel', ...(process.env.PHOTOVAULT_SCAN_EXTRA ?? '').split(',').filter(Boolean)];
