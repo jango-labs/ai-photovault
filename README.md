@@ -2,7 +2,7 @@
 
 An open-source, **private, self-hosted** photography library with semantic image search, intelligent curation and photographer-focused workflows. It runs on your own computer, reads your exported photographs **read-only**, and keeps everything (including any AI processing) local unless you explicitly decide otherwise.
 
-> Status: **1.0.0 release candidate.** Verified on macOS with a native PostgreSQL. The Docker, Windows and Linux paths are written and reviewed but **not yet verified** on real machines (see [Known limitations](#known-limitations)).
+> Status: **1.0.0 release candidate 2.** Verified on macOS (native PostgreSQL) and, in GitHub Actions on Ubuntu, the Docker Compose stack and the native install. Windows is written and reviewed but **not yet verified** on a real machine (see [Known limitations](#known-limitations)).
 
 ## What it does
 
@@ -56,8 +56,8 @@ Photographs are only ever sent to Ollama on this computer or to a host you list 
 
 ## Known limitations
 
-- **Verified**: macOS, native PostgreSQL 17 + pgvector, Node 24; the full automated suite (unit, database and web) and an end-to-end clean-install script; real Ollama embeddings for semantic search.
-- **Not yet verified**: the Docker Compose stack, Windows, Linux, and Ollama *vision* descriptions on a clean machine. Treat these as release-candidate quality and please report problems.
+- **Verified**: macOS with native PostgreSQL 17 + pgvector + Node 24 (full automated suite, end-to-end clean install, real Ollama embeddings); and on every push in GitHub Actions on Ubuntu: lint, typecheck, unit/web/database tests, the native clean install with backup and restore, and the Docker Compose stack (builds, becomes healthy, answers on `127.0.0.1` only, database not published).
+- **Not yet verified**: Windows (setup script and Docker Desktop paths), Docker on macOS, and Ollama *vision* descriptions on a clean machine. Please report problems.
 - **Hosted AI providers** (cloud vision APIs) have adapters in the source but are intentionally **not wired in**; nothing is sent to a cloud service.
 - **Instagram**: history can be read if you configure your own Meta app; publishing is a **mock** in this build.
 - **Two-factor sign-in is mandatory** (single-owner library; there is no public sign-up).

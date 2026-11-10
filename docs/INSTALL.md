@@ -2,7 +2,7 @@
 
 AI PhotoVault runs entirely on your own computer. Pick **Docker** (easiest, same on every OS) or **native** (no Docker; you provide PostgreSQL).
 
-> **Verification status.** Native install on macOS is verified end to end by `scripts/e2e-native.sh`. The Docker Compose stack, Windows and Linux instructions below have **not been tested on real machines yet**; they follow the same scripts and are covered by CI where noted. If something fails, please open an issue with the output of `docker compose logs`.
+> **Verification status.** Native install on macOS is verified by `scripts/e2e-native.sh`, which also runs in GitHub Actions on Ubuntu together with a Docker Compose smoke test (build, healthy, loopback-only, database not published). **Windows has not been tested on a real machine yet.** If something fails, please open an issue with the output of `docker compose logs`.
 
 ## What you need
 

@@ -1,7 +1,7 @@
 {
   "name": "ai-photovault",
   "private": true,
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.2",
   "type": "module",
   "description": "Open-source, self-hosted AI photo library: semantic search, AI curation, metadata indexing. Private by default.",
   "engines": {

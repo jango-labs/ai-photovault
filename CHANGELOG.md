@@ -2,7 +2,16 @@
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versioning: [SemVer](https://semver.org/).
 
-## [1.0.0-rc.1] — unreleased
+## [1.0.0-rc.2]
+
+### Fixed
+- Docker: the worker no longer reports "unhealthy" (it serves no HTTP, so the web health check was removed for that service).
+- CI: PostgreSQL 17 client tools for the backup step; explicit port assertions for the Docker job; the history secret scan ignores GitHub's own system addresses.
+
+### Verified
+- GitHub Actions on Ubuntu: full test suites, native clean install with backup/restore, Docker Compose stack, CodeQL, dependency audit, secret scan.
+
+## [1.0.0-rc.1]
 
 First public release candidate, extracted from a private production application.
 
