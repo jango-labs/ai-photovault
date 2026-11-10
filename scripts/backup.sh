@@ -18,6 +18,6 @@ else
 fi
 # verify: the archive must list its table of contents and contain the core tables
 if [ "${PHOTOVAULT_BACKUP_MODE:-docker}" = "native" ]; then LIST="$(pg_restore -l "$FILE")"; else LIST="$(docker compose exec -T db pg_restore -l < "$FILE")"; fi
-echo "$LIST" | grep -q "TABLE DATA public photos" || { echo "backup verification FAILED: no photos table in $FILE" >&2; rm -f "$FILE"; exit 1; }
+grep -q "TABLE DATA public photos" <<<"$LIST" || { echo "backup verification FAILED: no photos table in $FILE" >&2; rm -f "$FILE"; exit 1; }
 ( cd "$OUT" && { shasum -a 256 "$(basename "$FILE")" 2>/dev/null || sha256sum "$(basename "$FILE")"; } > "$(basename "$FILE").sha256" )
 echo "backup written and verified: $FILE ($(wc -c < "$FILE") bytes)"
